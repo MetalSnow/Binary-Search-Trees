@@ -1,16 +1,36 @@
-import LinkedList from './linkedList.js';
+import Tree from './tree.js';
 
-const list = new LinkedList();
+const tree = new Tree();
 
-list.append('Morocco');
-list.append('China');
-list.append('Germany');
-list.append('Japan');
-list.append('Canada');
+tree.buildTree([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
-list.insertAt('Spain', 3);
-list.removeAt(3);
+tree.insert(10);
 
-console.log(list.getHead());
-console.log(list.getSize());
-console.log(list.toString());
+tree.deleteItem(5);
+
+console.log(tree.find(6));
+
+// LevelOrder Using iteration
+tree.levelOrder((node) => {
+  node.data += ' Loop -';
+});
+
+// LevelOrder Using Recurtion
+tree.levelOrderRec((node) => {
+  node.data += ' Rec';
+});
+
+const prettyPrint = (node, prefix = '', isLeft = true) => {
+  if (node === null) {
+    return;
+  }
+  if (node.right !== null) {
+    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+  }
+  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+  if (node.left !== null) {
+    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+  }
+};
+
+prettyPrint(tree.root);
