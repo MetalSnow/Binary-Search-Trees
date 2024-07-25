@@ -131,17 +131,26 @@ export default class Tree {
   }
 
   // LevelOrder Using Recurtion
-  levelOrderRec(callback, root = this.root) {
+  levelOrderRec(callback, qeueu = [this.root]) {
     if (typeof callback !== 'function') {
       throw new Error(`${typeof callback} "${callback}" is not a function`);
     }
 
-    if (!root) return;
+    if (qeueu.length === 0) return;
 
-    callback(root);
+    let node = qeueu.shift();
 
-    this.levelOrderRec(callback, root.left);
-    this.levelOrderRec(callback, root.right);
+    if (node.left !== null) {
+      qeueu.push(node.left);
+    }
+
+    if (node.right !== null) {
+      qeueu.push(node.right);
+    }
+
+    callback(node);
+
+    this.levelOrderRec(callback, qeueu);
   }
 
   preOrder(callback, root = this.root) {
@@ -205,5 +214,28 @@ export default class Tree {
     }
 
     return right;
+  }
+
+  isBalanced() {
+    let heightLeft = this.height(this.root.left);
+    let heightRight = this.height(this.root.right);
+
+    let diff = heightLeft - heightRight;
+
+    if (diff === 1 || diff === -1 || diff === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  rebalance() {
+    let arr = [];
+
+    this.levelOrder((node) => {
+      arr.push(node.data);
+    });
+
+    this.buildTree(arr);
   }
 }

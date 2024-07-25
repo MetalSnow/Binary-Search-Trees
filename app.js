@@ -1,45 +1,50 @@
 import Tree from './tree.js';
+import generateArray from './generateArray.js';
+import { prettyPrint } from './prittyPrint.js';
 
 const tree = new Tree();
 
-tree.buildTree([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+const array = generateArray();
 
-tree.insert(10);
+tree.buildTree(array);
 
-tree.deleteItem(5);
-
-console.log(tree.find(6));
+console.log(tree.isBalanced()); // true
 
 // LevelOrder Using iteration
-tree.levelOrder((node) => {
-  node.data += ' Loop -';
-});
-
+tree.levelOrder((node) => console.log(node.data));
+console.log('########');
 // LevelOrder Using Recurtion
-tree.levelOrderRec((node) => {
-  node.data += ' Rec';
-});
-
+tree.levelOrderRec((node) => console.log(node.data));
+console.log('########');
 tree.preOrder((node) => console.log(node.data));
 console.log('########');
 tree.inOrder((node) => console.log(node.data));
 console.log('########');
 tree.postOrder((node) => console.log(node.data));
 
-console.log(tree.height(tree.root.right));
-console.log(tree.depth(tree.root.left.right.right));
+// Unbalancing the tree by adding several numbers > 100
+tree.insert(102);
+tree.insert(142);
+tree.insert(209);
 
-const prettyPrint = (node, prefix = '', isLeft = true) => {
-  if (node === null) {
-    return;
-  }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-  }
-  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-  }
-};
-
+// print tree
 prettyPrint(tree.root);
+
+console.log(tree.isBalanced()); // false
+
+tree.rebalance();
+
+// print tree
+prettyPrint(tree.root);
+
+// LevelOrder Using iteration
+tree.levelOrder((node) => console.log(node.data));
+console.log('########');
+// LevelOrder Using Recurtion
+tree.levelOrderRec((node) => console.log(node.data));
+console.log('########');
+tree.preOrder((node) => console.log(node.data));
+console.log('########');
+tree.inOrder((node) => console.log(node.data));
+console.log('########');
+tree.postOrder((node) => console.log(node.data));
