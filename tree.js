@@ -143,4 +143,67 @@ export default class Tree {
     this.levelOrderRec(callback, root.left);
     this.levelOrderRec(callback, root.right);
   }
+
+  preOrder(callback, root = this.root) {
+    if (typeof callback !== 'function') {
+      throw new Error(`${typeof callback} "${callback}" is not a function`);
+    }
+
+    if (!root) return;
+
+    callback(root);
+    this.preOrder(callback, root.left);
+    this.preOrder(callback, root.right);
+  }
+
+  inOrder(callback, root = this.root) {
+    if (typeof callback !== 'function') {
+      throw new Error(`${typeof callback} "${callback}" is not a function`);
+    }
+
+    if (!root) return;
+
+    this.inOrder(callback, root.left);
+    callback(root);
+    this.inOrder(callback, root.right);
+  }
+
+  postOrder(callback, root = this.root) {
+    if (typeof callback !== 'function') {
+      throw new Error(`${typeof callback} "${callback}" is not a function`);
+    }
+
+    if (!root) return;
+
+    this.postOrder(callback, root.left);
+    this.postOrder(callback, root.right);
+    callback(root);
+  }
+
+  height(node) {
+    if (!node) return -1;
+
+    let left = this.height(node.left) + 1;
+    let right = this.height(node.right) + 1;
+
+    if (left > right) {
+      return left;
+    }
+
+    return right;
+  }
+
+  depth(node, root = this.root) {
+    if (!root) return;
+    if (root === node) return 0;
+
+    let left = this.depth(node, root.left) + 1;
+    let right = this.depth(node, root.right) + 1;
+
+    if (!isNaN(left)) {
+      return left;
+    }
+
+    return right;
+  }
 }

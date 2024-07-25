@@ -20,6 +20,15 @@ tree.levelOrderRec((node) => {
   node.data += ' Rec';
 });
 
+tree.preOrder((node) => console.log(node.data));
+console.log('########');
+tree.inOrder((node) => console.log(node.data));
+console.log('########');
+tree.postOrder((node) => console.log(node.data));
+
+console.log(tree.height(tree.root.right));
+console.log(tree.depth(tree.root.left.right.right));
+
 const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node === null) {
     return;
